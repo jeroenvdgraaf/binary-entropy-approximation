@@ -1,0 +1,7 @@
+*.aux
+*.log
+*.out
+*.pdf
+!paper/fig*.pdf
+__pycache__/
+gamma_coefficients.json

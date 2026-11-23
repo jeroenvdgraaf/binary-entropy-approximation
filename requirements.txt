@@ -1,0 +1,4 @@
+python-flint
+mpmath
+numpy
+matplotlib
