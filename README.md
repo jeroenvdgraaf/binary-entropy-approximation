@@ -2,7 +2,7 @@
 
 Source and verification code for the paper
 
-> J. van de Graaf, *Why (4x(1−x))^{3/4} approximates the binary entropy so well: a proof of Topsøe's convexity conjecture*, arXiv:XXXX.XXXXX (2026).
+> J. van de Graaf, *Why (4x(1−x))^{3/4} approximates the binary entropy so well: a proof of Topsøe's convexity conjecture*, [arXiv:2611.33213](https://arxiv.org/abs/2611.33213) (2026).
 
 ## What the paper proves
 
