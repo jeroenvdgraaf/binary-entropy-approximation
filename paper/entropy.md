@@ -5,7 +5,7 @@ author:
   - "Jeroen van de Graaf\\thanks{Departamento de Ciência da Computação, Universidade Federal de Minas Gerais (UFMG), Belo Horizonte, Brazil.}"
 date: "November 2026"
 abstract: |
-  Write the binary entropy as $h(x) = u^{g(x)}$ with $u = 4x(1-x)$. Topsøe (2001) proved the sharp bounds $1/\ln 4 \le g \le 1$, i.e. $u \le h \le u^{1/\ln 4}$, and conjectured that the effective exponent $g$ is convex. We prove this conjecture. In the variable $s = (1-2x)^2$, $g$ extends to a Pick function on $\mathbb{C} \setminus [1,\infty)$ with an explicit positive density on the cut, so that $g(x) = \sum_n \gamma_n (1-2x)^{2n}$ with $\gamma_n > 0$ and $(\gamma_n)_{n \ge 1}$ a moment sequence. Pinelis's monotonicity theorem, Topsøe's power-type bounds and the optimality of their exponents follow as corollaries, together with a classification of all exponents $\alpha$ for which $u^\alpha$ bounds $h$. The proof is by hand except for one inequality in one real variable on a bounded interval, certified by interval arithmetic. As an application we give sharp, certified constants for the approximation $h \approx u^{3/4}$: $-0.0065493 \le u^{3/4} - h \le 0.0080004$ on $[0,1]$.
+  Write the binary entropy as $h(x) = u^{g(x)}$ with $u = 4x(1-x)$. Topsøe (2001) proved the sharp bounds $1/\ln 4 \le g \le 1$, i.e. $u \le h \le u^{1/\ln 4}$, and conjectured that the effective exponent $g$ is convex. We prove this conjecture. In the variable $s = (1-2x)^2$, $g$ extends to a Pick function on $\mathbb{C} \setminus [1,\infty)$ with an explicit positive density on the cut, so that $g(x) = \sum_n \gamma_n (1-2x)^{2n}$ with $\gamma_n > 0$ and $(\gamma_n)_{n \ge 1}$ a moment sequence. Pinelis's monotonicity theorem, Topsøe's power-type bounds and the optimality of their exponents follow as corollaries, together with a classification of all exponents $\alpha$ for which $u^\alpha$ bounds $h$. The proof is by hand except for one inequality in one real variable on a bounded interval, certified by interval arithmetic. As an application we give sharp, certified constants for the approximation $h \approx u^{3/4}$: $-0.0065493 \le u^{3/4} - h \le 0.0080004$ on $[0,1]$. Writing $g = 1/\ln z$, with $z$ between $e$ and $4$, we also prove the one-sided variable-exponent bound $0 \le h - u^{1/\ln z} \le 0.0006377$ for $\ln z = 1 + (\ln 4 - 1)u^{1/10}$, about 170 times tighter than $h \ge u$.
 geometry: margin=2.5cm
 fontsize: 11pt
 colorlinks: true
@@ -279,11 +279,42 @@ h^{-1}(y) \approx \frac{1 - \sqrt{1 - y^{4/3}}}{2} \quad\text{on } [0, \tfrac12]
 $$
 with maximum error about $0.0034$ in $x$ (numerical).
 
+## A variable exponent: $g \approx 1/\ln z$
+
+Topsøe's two exponents can be written as $1/\ln 4$ and $1 = 1/\ln e$. Writing $g = 1/\ln z$, the base $z$ decreases from $4$ at $x = \tfrac12$ to $e$ at the endpoints (Corollary 7), so Topsøe's bounds say $e \le z \le 4$. Interpolating $\ln z$ between its two extreme values gives a lower bound for $h$ that is about $170$ times tighter than $h \ge u$.
+
+**Theorem 10.** Let $u = 4x(1-x)$ and $\ln z = 1 + (\ln 4 - 1)\,u^{1/10}$. For all $x \in [0,1]$,
+$$
+0 \;\le\; h(x) - u^{1/\ln z} \;\le\; 0.0006377,
+$$
+with equality on the left only at $x \in \{0, \tfrac12, 1\}$. The maximum is $\approx 0.00063760$, attained at $x \approx 0.004691$ and its mirror image.
+
+*Proof.* Put $a = \ln 4 - 1$, $b = \tfrac1{10}$ and $\tilde g = 1/\ln z = 1/(1 + a u^b)$. Since $0 < u < 1$ and $h = u^g$, the left inequality is equivalent to $g \le \tilde g$. By symmetry take $x \in (0, \tfrac12)$.
+
+- *Near $x = 0$, $0 < x \le 10^{-8}$.* Here $u \le 4\cdot 10^{-8} < e^{-1/b}$, where $u^b \ln\frac1u$ is increasing, so with $M = (4\cdot10^{-8})^b \ln(\frac{1}{4}10^{8}) \approx 3.10$,
+$$
+u^{\tilde g} = u \exp\Bigl(\frac{a u^b \ln(1/u)}{1 + a u^b}\Bigr) \le 4x\,e^{aM} < 13.3\,x < 26.5\,x \le x \log_2\tfrac{1}{x} \le h(x).
+$$
+- *Near $x = \tfrac12$, $s = (1-2x)^2 \le s_0$.* With $w = (1-s)^b \le 1 - bs$ (Bernoulli), $\tilde g - c = \frac{a(1-w)}{(1+aw)(1+a)} \ge c^2 ab\, s$. By Theorem 1, $g = \sum \gamma_n s^n$ with $\gamma_n \ge 0$ and $\sum \gamma_n = 1$, so $g \le c + \gamma_1 s + (1 - c - \gamma_1) s^2$. Hence
+$$
+\tilde g - g \;\ge\; s\,\bigl(\delta - (1 - c - \gamma_1)s\bigr), \qquad \delta = c^2 a b - \gamma_1 \approx 3.786\cdot 10^{-4},
+$$
+which is positive for $0 < s \le s_0 = \delta / (2(1 - c - \gamma_1)) \approx 7.31\cdot 10^{-4}$, i.e. for $x \ge 0.48649$.
+- *In between, $10^{-8} \le x \le 0.4865$*, $\tilde g - g > 0$ is certified by interval arithmetic with the mean-value form (16164 subintervals).
+
+For the right inequality, $h - u^{\tilde g} \le h(10^{-8}) < 0.0006377$ on $[0, 10^{-8}]$, and the bound on $[10^{-8}, \tfrac12]$ is certified in the same way (370 subintervals). The script is in Appendix C. $\square$
+
+**Remarks.** (i) The exponent $\tfrac1{10}$ is just above the critical value $b^\star = \gamma_1/(c^2(\ln 4 - 1)) \approx 0.0981$. For $b < b^\star$ the coefficient $\delta$ is negative, $\tilde g < g$ near $x = \tfrac12$, and $u^{1/\ln z}$ crosses $h$; the exponent $b \approx 0.0961$ minimizing $\max|h - u^{1/\ln z}|$ (numerically $\approx 0.00030$) is of this kind. With $b = \tfrac1{10}$ one gains a one-sided bound at the cost of about a factor two in accuracy.
+
+(ii) Near $x = 0$, expanding the definition gives $g(x) = 1 - \bigl(\ln\ln\frac1x + O(1)\bigr)/\ln\frac1x$, so $\ln z \to 1$ only logarithmically slowly; the form above does not reproduce this rate, but Theorem 10 shows that it does not need to.
+
+(iii) The bound is easy to invert numerically: since $u \mapsto u^{1/\ln z}$ is increasing, $h(x) \ge y$ whenever $u^{1/(1+a u^{b})} \ge y$, which can be solved for $u$ by a few steps of bisection or Newton's method.
+
 # An elementary route to the bounds and the crossing property
 
 Items 2–4 of Corollary 7 can also be obtained without complex analysis, from the signs of the coefficients $a_n$ in (3). We record the argument briefly; it does not give convexity.
 
-**Lemma 10 (Descartes' rule for power series).** Let $f(s) = \sum_{n\ge1} a_n s^n$ converge on $[0,1)$, not all $a_n = 0$, and let $V < \infty$ be the number of sign changes in $(a_n)$, zeros skipped. Then $f$ has at most $V$ zeros in $(0,1)$. If moreover $\sum|a_n| < \infty$, then $f$ has at most $V$ zeros in $(0,1]$.
+**Lemma 11 (Descartes' rule for power series).** Let $f(s) = \sum_{n\ge1} a_n s^n$ converge on $[0,1)$, not all $a_n = 0$, and let $V < \infty$ be the number of sign changes in $(a_n)$, zeros skipped. Then $f$ has at most $V$ zeros in $(0,1)$. If moreover $\sum|a_n| < \infty$, then $f$ has at most $V$ zeros in $(0,1]$.
 
 *Proof.* Induction on $V$. If $V = 0$, all nonzero terms have the same sign and $f \ne 0$ on $(0,1]$. If $V \ge 1$, let $a_p$ and $a_q$, $p < q$, be consecutive nonzero coefficients of opposite signs and put $N = p + \tfrac12$. The function $g(s) = s^{-N} f(s)$ has the same zeros as $f$ in $(0,1]$, and
 $$
@@ -293,9 +324,9 @@ The factor $n - N$ is negative for $n \le p$ and positive for $n \ge q$, so the 
 
 **Lower bound.** Since $s^n \le s$ on $[0,1]$, (1) gives $h \ge 1 - cs\sum_n \frac{1}{n(2n-1)} = 1 - s = u$.
 
-**Upper bound.** Take $\alpha = c$ in (3)–(4). Then $a_1 = 0$; $n_0(c) \approx 1.29 < 2$, so $(r_n)_{n \ge 2}$ increases, from $r_2 = 3(1-c) \approx 0.836 < 1$ to $\infty$ (as $b_n$ decays like $n^{-1-c}$, slower than $n^{-2}$). The coefficients are therefore positive for $2 \le n \le N$ and nonpositive afterwards, not all zero: one sign change. By Lemma 10, $D_c$ has at most one zero in $(0,1]$, and $s = 1$ is one. Since $D_c \approx a_2 s^2 > 0$ near $s = 0$, $D_c > 0$ on $(0,1)$. Topsøe's remark that the series cannot be used directly is thus circumvented: the pattern of signs, together with the zero at $s = 1$, is enough.
+**Upper bound.** Take $\alpha = c$ in (3)–(4). Then $a_1 = 0$; $n_0(c) \approx 1.29 < 2$, so $(r_n)_{n \ge 2}$ increases, from $r_2 = 3(1-c) \approx 0.836 < 1$ to $\infty$ (as $b_n$ decays like $n^{-1-c}$, slower than $n^{-2}$). The coefficients are therefore positive for $2 \le n \le N$ and nonpositive afterwards, not all zero: one sign change. By Lemma 11, $D_c$ has at most one zero in $(0,1]$, and $s = 1$ is one. Since $D_c \approx a_2 s^2 > 0$ near $s = 0$, $D_c > 0$ on $(0,1)$. Topsøe's remark that the series cannot be used directly is thus circumvented: the pattern of signs, together with the zero at $s = 1$, is enough.
 
-**Crossing.** Let $c < \alpha < 1$. Then $a_1 = c - \alpha < 0$, and $r_2 = 3\alpha(1-\alpha)/c < 3(1-c) < 1$ because $\alpha(1-\alpha)$ decreases for $\alpha > \tfrac12$, so $a_2 > 0$. For $n \ge 2$ the sequence $(r_n)$ first decreases (up to $n_0$) and then increases to $\infty$; starting below $1$, it stays below $1$ on an initial segment and is $\ge 1$ afterwards. The signs are $-,+,\dots,+,-,\dots$: two sign changes. By Lemma 10, $D_\alpha$ has at most two zeros in $(0,1]$, one being $s = 1$. As $D_\alpha < 0$ near $s = 0$ and $D_\alpha > 0$ near $s = 1$ (there $u^\alpha \sim (4x)^\alpha \gg x\log_2\frac1x \sim h$), there is exactly one zero in $(0,1)$. Since a point with $g = \alpha$ is a zero of $D_\alpha$, $g$ takes each value in $(c,1)$ exactly once on $(0,\tfrac12)$ and is therefore strictly monotone there, which is Pinelis's theorem again.
+**Crossing.** Let $c < \alpha < 1$. Then $a_1 = c - \alpha < 0$, and $r_2 = 3\alpha(1-\alpha)/c < 3(1-c) < 1$ because $\alpha(1-\alpha)$ decreases for $\alpha > \tfrac12$, so $a_2 > 0$. For $n \ge 2$ the sequence $(r_n)$ first decreases (up to $n_0$) and then increases to $\infty$; starting below $1$, it stays below $1$ on an initial segment and is $\ge 1$ afterwards. The signs are $-,+,\dots,+,-,\dots$: two sign changes. By Lemma 11, $D_\alpha$ has at most two zeros in $(0,1]$, one being $s = 1$. As $D_\alpha < 0$ near $s = 0$ and $D_\alpha > 0$ near $s = 1$ (there $u^\alpha \sim (4x)^\alpha \gg x\log_2\frac1x \sim h$), there is exactly one zero in $(0,1)$. Since a point with $g = \alpha$ is a zero of $D_\alpha$, $g$ takes each value in $(c,1)$ exactly once on $(0,\tfrac12)$ and is therefore strictly monotone there, which is Pinelis's theorem again.
 
 # Summary
 
@@ -303,10 +334,11 @@ The factor $n - N$ is negative for $n \le p$ and positive for $n \ge q$, so the 
 |---|---|---|
 | $g$ convex (Topsøe's Conjecture 6.2) | **new** | Theorem 1, with one certified one-variable inequality |
 | $g = \sum \gamma_n (1-2x)^{2n}$, $(\gamma_n)_{n\ge1}$ a moment sequence | **new** | Theorem 1 |
-| $g$ strictly monotone on each half | known (Pinelis, [T01, P02]); two new proofs | Theorem 1; Lemma 10 |
-| $u \le h \le u^{1/\ln 4}$, exponents optimal | known [HT01, T01]; two new proofs | Theorem 1; Lemma 10 |
+| $g$ strictly monotone on each half | known (Pinelis, [T01, P02]); two new proofs | Theorem 1; Lemma 11 |
+| $u \le h \le u^{1/\ln 4}$, exponents optimal | known [HT01, T01]; two new proofs | Theorem 1; Lemma 11 |
 | $-0.0065493 \le u^{3/4} - h \le 0.0080004$ | new, sharp (approximation stated informally in [D15, C19]) | interval arithmetic |
 | $\lvert u^{3/4} - h\rvert \le 0.0423$ | new, elementary | coefficient signs |
+| $0 \le h - u^{1/\ln z} \le 0.0006377$, $\ln z = 1 + (\ln 4 - 1)u^{1/10}$ | new | Theorem 1 + interval arithmetic |
 | Minimax exponent $\approx 0.7523$ | numerical | optimization |
 
 "New" is to the best of our knowledge; a systematic search of the papers citing [T01] and [P01] has not yet been done.
@@ -397,4 +429,89 @@ def check(a, b):                # certify LO < D < HI on [a, b]
 assert (4 * X0).sqrt() * (4 * X0).sqrt().sqrt() < HI
 assert -h(X0) > LO
 print(check(X0, arb(1) / 2), "boxes")
+```
+
+# Appendix C: verification of Theorem 10 {-}
+
+Requires `pip install python-flint`; runs in about one second. The derivative in the mean-value form is obtained by Taylor arithmetic (`arb_series`).
+
+```python
+"""Certification of Theorem 10: for all x in [0, 1],
+
+    0 <= h(x) - u^(1/ln z) <= 0.0006377,   u = 4x(1-x),  ln z = 1 + (ln 4 - 1) u^(1/10),
+
+with equality on the left only at x in {0, 1/2, 1}. Equivalently g <= gt := 1/ln z.
+By symmetry it suffices to take x in [0, 1/2]. Requires: pip install python-flint.
+
+Lower inequality (g < gt on (0, 1/2)):
+  Region I   (0, 1e-8]  : analytic bound, checked below in ball arithmetic.
+  Region II  [1e-8, xs] : interval arithmetic, mean-value form with Taylor arithmetic.
+  Region III [xs, 1/2)  : analytic, via Theorem 1 (g = sum gamma_n s^n, gamma_n >= 0, sum 1).
+Upper inequality: on [0, 1e-8] since h - A <= h(1e-8); elsewhere interval arithmetic.
+"""
+from flint import arb, arb_series, ctx
+ctx.prec = 120
+LN2 = arb(2).log(); LN4 = arb(4).log()
+a = LN4 - 1; b = arb(1) / 10; c = 1 / LN4
+K = arb("0.0006377"); X0 = arb("1e-8")
+
+def funcs(x):
+    """h, u, gt for x a ball or a Taylor series."""
+    u = 4 * x * (1 - x)
+    h = -(x * x.log() + (1 - x) * (1 - x).log()) / LN2
+    gt = 1 / (1 + a * (b * u.log()).exp())
+    return h, u, gt
+
+def mv_check(f, lo, hi, test, depth=0):
+    """Certify test(f(X)) on [lo, hi] using f(m) + f'(X)(X - m), bisecting as needed."""
+    m = (lo + hi) / 2; r = (hi - lo) / 2
+    try:
+        fm = f(arb_series([m, 1], prec=1)).coeffs()[0]
+        d = f(arb_series([arb.union(lo, hi), 1], prec=2)).coeffs()[1]
+        if test(fm + d * arb(0, r.upper())):
+            return 1
+    except ValueError:          # series division failed on a too-wide ball
+        pass
+    if depth > 80:
+        raise RuntimeError("cannot certify near %s" % lo)
+    return mv_check(f, lo, m, test, depth + 1) + mv_check(f, m, hi, test, depth + 1)
+
+def q(x):                        # gt - g
+    h, u, gt = funcs(x)
+    return gt - h.log() / u.log()
+
+def D(x):                        # h - A
+    h, u, gt = funcs(x)
+    return h - (gt * u.log()).exp()
+
+# ---- Region I. For u <= 4 X0 < e^{-1/b}, u^b ln(1/u) is increasing, so
+#      A = u exp(a u^b ln(1/u) / (1 + a u^b)) <= 4 x exp(a M), while h >= x log2(1/x) >= x log2(1/X0).
+uM = 4 * X0
+assert uM < (-1 / b).exp()
+M = uM ** b * (1 / uM).log()
+lhs = 4 * (a * M).exp(); rhs = (1 / X0).log() / LN2
+assert lhs < rhs
+print("Region I  : A <= %s x < %s x <= h on (0, 1e-8]" % (lhs.str(4), rhs.str(4)))
+
+# ---- Region III. With s = (1-2x)^2 and w = (1-s)^b <= 1 - b s (Bernoulli):
+#      gt - c = a(1 - w)/((1 + a w)(1 + a)) >= c^2 a b s, and by Theorem 1
+#      g <= c + gamma1 s + (1 - c - gamma1) s^2. So gt - g >= s (delta - R s) > 0 for s <= s0.
+gamma1 = c * (c / 2 - arb(1) / 3)
+delta = c * c * a * b - gamma1; R = 1 - c - gamma1
+assert delta > 0
+s0 = delta / (2 * R)
+xs = (1 - s0.sqrt()) / 2
+XS = arb("0.4865")
+assert XS > xs
+print("Region III: delta = %s, s0 = %s, covers [%s, 1/2)" % (delta.str(4), s0.str(4), xs.str(6)))
+
+# ---- Region II.
+n2 = mv_check(q, X0, XS, lambda e: e > 0)
+print("Region II : gt > g certified on [1e-8, 0.4865] with %d boxes" % n2)
+
+# ---- Upper bound.
+assert -(X0 * X0.log() + (1 - X0) * (1 - X0).log()) / LN2 < K
+n3 = mv_check(D, X0, arb(1) / 2, lambda e: e < K)
+print("Upper     : h - A < %s certified on [1e-8, 1/2] with %d boxes" % (K.str(5), n3))
+print("PROVED: 0 <= h - u^(1/ln z) <= 0.0006377 on [0, 1]")
 ```

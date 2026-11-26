@@ -10,6 +10,12 @@ Write the binary entropy as h(x) = u^{g(x)} with u = 4x(1−x). Topsøe (2001) p
 
     −0.0065493 ≤ (4x(1−x))^{3/4} − h(x) ≤ 0.0080004   on [0, 1].
 
+Writing g = 1/ln z, with z between e and 4, it also proves the one-sided bound
+
+    0 ≤ h(x) − u^{1/ln z} ≤ 0.0006377   on [0, 1],   ln z = 1 + (ln 4 − 1) u^{1/10},
+
+about 170 times tighter than Topsøe's h ≥ u.
+
 ## Repository layout
 
 | Path | Contents |
@@ -19,6 +25,7 @@ Write the binary entropy as h(x) = u^{g(x)} with u = 4x(1−x). Topsøe (2001) p
 | `paper/fig*.pdf` | Figures |
 | `scripts/verify_lemma5.py` | Certifies Lemma 5 (Φ > 0 on [1e-4, 10]) with interval arithmetic |
 | `scripts/verify_theorem8.py` | Certifies the sharp constants of Theorem 8 with interval arithmetic |
+| `scripts/verify_theorem10.py` | Certifies Theorem 10, the bound 0 ≤ h − u^(1/ln z) ≤ 0.0006377 |
 | `scripts/taylor_coeffs.py` | Computes the first 398 Taylor coefficients γₙ in 60-digit arithmetic |
 | `scripts/check_representation.py` | Compares those coefficients with the integral formula of Theorem 1 |
 | `scripts/make_figures.py` | Regenerates the figures |
@@ -30,6 +37,7 @@ pip install python-flint mpmath numpy matplotlib
 cd scripts
 python verify_lemma5.py        # prints: 92 boxes
 python verify_theorem8.py      # prints: 145 boxes
+python verify_theorem10.py     # prints: PROVED ...
 python taylor_coeffs.py        # writes gamma_coefficients.json
 python check_representation.py
 ```
